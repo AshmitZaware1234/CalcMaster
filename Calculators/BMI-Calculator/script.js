@@ -15,6 +15,17 @@ var span = document.getElementsByClassName("close")[0];
 // document.querySelector("#result").innerHTML = "00.00";
 
 function calculate() {
+
+    var heightUnit = document.getElementById("heightUnit").value;
+    var heightValue;
+
+    if (heightUnit === "cm") {
+        heightValue = document.getElementById("height").value;
+    } else {
+        var heightFeet = document.getElementById("heightFeet").value;
+        heightValue = convertFeetToCm(heightFeet);
+    }
+
     if (age.value == '' || height.value == '' || weight.value == '' || (male.checked == false && female.checked == false)) {
         modal.style.display = "block";
         modalText.innerHTML = 'ALL fields are required!';
@@ -23,6 +34,7 @@ function calculate() {
         modalText.innerHTML = 'Please enter valid positive values for height and weight!';
     } else {
         countBmi();
+        countBmi(heightValue);
     }
 }
 function isPositiveNumber(value) {
@@ -30,6 +42,26 @@ function isPositiveNumber(value) {
 }
 function countBmi() {
     var p = [age.value, height.value, weight.value];
+    function convertFeetToCm(feet) {
+    return (feet * 30.48) ;
+}
+function toggleHeightInput() {
+    var heightUnit = document.getElementById("heightUnit").value;
+    var heightLabel = document.querySelector("label[for='height']");
+
+    if (heightUnit === "cm") {
+        document.getElementById("heightCmInput").style.display = "block";
+        document.getElementById("heightFeetInput").style.display = "none";
+        heightLabel.textContent = "Height(cm)";
+    } else {
+        document.getElementById("heightCmInput").style.display = "none";
+        document.getElementById("heightFeetInput").style.display = "block";
+        heightLabel.textContent = "Height(feet)";
+
+    }
+}
+function countBmi(heightValue) {
+    var p = [age.value, heightValue, weight.value];
     if (male.checked) {
         p.push("male");
     } else if (female.checked) {
